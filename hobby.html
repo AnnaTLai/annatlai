@@ -20,7 +20,7 @@
 
   <script src="js/bootstrap.bundle.min.js"></script>
   <script>
-    // Insert Back Home Button
+    
     const container = $("#hobbyPageContainer");
     const backButton = $(`
       <div class="position-fixed bottom-0 end-0 m-3">
@@ -32,7 +32,6 @@
 
     container.append(backButton);
 
-    // Handle Back Home Button Event
     backButton.click(() => {
       window.location.href = '/';
     });
