@@ -1,36 +1,27 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
 
   <title>Anna Lai</title>
 </head>
+
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">Welcome to my website.</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="reads.html">Reads</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="hobby.html">Hobby</a>
-          </li>
-        </ul>
-      </div>
+  <header class="site-header sticky-top py-1">
+    <div class="container px-4 d-flex flex-wrap justify-content-between align-items-center">
+      <a class="navbar-brand d-block mx-auto text-center w-100" href="#"><img src="logo.png" alt="" loading="lazy" /></a>
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 float-right-custom">
+        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="reads.html" class="nav-link px-2 link-dark">Reads</a></li>
+        <li><a href="hobby.html" class="nav-link px-2 link-dark">Hobby</a></li>
+      </ul>
     </div>
-  </nav>
-  
+  </header>
+
   <main class="container mt-5 pt-5">
     <section class="row">
       <article class="col-md-8 offset-md-2 text-center">
@@ -39,16 +30,18 @@
         <a href="#" class="btn btn-primary">Get Started</a>
       </article>
     </section>
-    
-    <hr>
-    
+
+    <hr />
+
     <footer class="text-muted py-5 border-top">
-      &copy; 2024 Anna Lai
+      <p class="float-sm-start mb-1">&copy; 2024 Anna Lai</p>
+      <p class="float-sm-end mb-1">Created by <a href="mailto:anna@example.com">Anna Lai</a></p>
     </footer>
   </main>
-  
-  <script src="js/jquery-3.5.1.slim.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+
+  <script src="/js/jquery-3.5.1.slim.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
 </body>
+
 </html>
