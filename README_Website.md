@@ -1,6 +1,6 @@
 # Website ReadME
 
-[Live Website] (https://annatlai.github.io/annatlai/)
+[Live Website](https://annatlai.github.io/annatlai/)
 The link: https://annatlai.github.io/annatlai/
 
 ## Created with reference to
