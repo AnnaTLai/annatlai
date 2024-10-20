@@ -12,5 +12,6 @@ The link: https://annatlai.github.io/annatlai/
 
 ### Steps
 1. Copy the odyssey theme, set up running repository. Change the deployment branch to dev for testing.
+    run npm run dev to view localhost
 2. Change the deployment language: https://docs.astro.build/en/guides/deploy/github/
 3. Merge change with main after completion of the development. Change the deployment branch back to main in workflows/deploy.yml once statisfied. 
