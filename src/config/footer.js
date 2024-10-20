@@ -27,15 +27,15 @@ export const footerLists = [
 		items: [
 			{
 				title: 'Landing Page 1',
-				slug: '/landing-pages/landing-1',
+				slug: '/annatlai/landing-pages/landing-1',
 			},
 			{
 				title: 'Landing Page 2',
-				slug: '/landing-pages/landing-2',
+				slug: '/annatlai/landing-pages/landing-2',
 			},
       // {
 			// 	title: 'Landing Page 3',
-			// 	slug: '/landing-pages/landing-3',
+			// 	slug: '/annatlai/landing-pages/landing-3',
 			// },
 		],
 	},
@@ -44,7 +44,7 @@ export const footerLists = [
 		items: [
 			{
 				title: 'About',
-				slug: '/company/about',
+				slug: '/annatlai/company/about',
 			},
 			{
 				title: 'Blog',
@@ -52,7 +52,7 @@ export const footerLists = [
 			},
 			{
 				title: 'Contact',
-				slug: '/company/contact',
+				slug: '/annatlai/company/contact',
 			},
 		],
 	},
@@ -61,19 +61,19 @@ export const footerLists = [
 		items: [
 			{
 				title: 'Get Started',
-				slug: '/theme/get-started',
+				slug: '/annatlai/theme/get-started',
 			},
 			{
 				title: 'Style Guide',
-				slug: '/theme/style-guide',
+				slug: '/annatlai/theme/style-guide',
 			},
       {
         title: 'Theme Setup',
-        slug: '/theme/theme-setup',
+        slug: '/annatlai/theme/theme-setup',
       },
       {
         title: 'Customizing Odyssey',
-        slug: '/theme/customizing-odyssey',
+        slug: '/annatlai/theme/customizing-odyssey',
       }
 		],
 	},
