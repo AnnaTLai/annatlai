@@ -8,3 +8,7 @@ The link: https://annatlai.github.io/annatlai/
 ## Created with reference to
 
 ➡️ https://github.com/dawidolko/Website-Templates/tree/master/delight-multi-purpose-free-html5-website-template
+
+### Steps
+1. Copy the odyssey theme, set up running repository
+2. Change the deployment language: https://docs.astro.build/en/guides/deploy/github/
