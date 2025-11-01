@@ -8,6 +8,8 @@ Here are some ideas to get you started:
 - 👯 I’m looking to collaborate on projects related to healthcare 👩‍⚕️
 - 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/annatlai/)
 - 😄 Pronouns: She/ Her
-- ⚡ Fun fact: Glass knife fish is a type of electric fish that can be kept in aquariums. 
+- ⚡ Fun fact: Glass knife fish is a type of electric fish that can be kept in aquariums.
+
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=annatlai&layout=donut-vertical&size_weight=0.1&count_weight=0.9&langs_count=10&theme=solarized-light)](https://github.com/anuraghazra/github-readme-stats)
 
 [![My Skills](https://skillicons.dev/icons?i=py,r,nodejs,react,figma,git,github,css,html,ts,dart,notion,obsidian,latex,md,mysql,mongodb,powershell,postgres,wordpress&perline=8&theme=light)](https://skillicons.dev)
