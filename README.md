@@ -10,6 +10,6 @@ Here are some ideas to get you started:
 - 😄 Pronouns: She/ Her
 - ⚡ Fun fact: Glass knife fish is a type of electric fish that can be kept in aquariums.
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=annatlai&layout=donut-vertical&size_weight=0.1&count_weight=0.9&langs_count=10&theme=solarized-light)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats-y2n7.vercel.app/api/top-langs/?username=annatlai&layout=donut-vertical&size_weight=0.1&count_weight=0.9&langs_count=10&theme=solarized-light)](https://github.com/anuraghazra/github-readme-stats)
 
 [![My Skills](https://skillicons.dev/icons?i=py,r,nodejs,react,figma,git,github,css,html,ts,dart,notion,obsidian,latex,md,mysql,mongodb,powershell,postgres,wordpress&perline=8&theme=light)](https://skillicons.dev)
