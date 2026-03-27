@@ -19,3 +19,28 @@ pre {
 pre .language-id {
   display: none;
 }
+
+/* Language Switcher Styles */
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lang-link {
+  text-decoration: none;
+  color: var(--theme-on-bg);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.lang-link:hover {
+  background: var(--theme-surface-1);
+}
+
+.lang-link.active {
+  background: var(--theme-primary);
+  color: var(--theme-on-primary);
+}

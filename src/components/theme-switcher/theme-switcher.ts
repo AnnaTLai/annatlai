@@ -2,19 +2,11 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import {
-	classicThemeIcon,
 	darkThemeIcon,
 	earthThemeIcon,
-	blueThemeIcon,
-	orangeThemeIcon,
 } from './icons';
 
 const themes = [
-  {
-    name: 'default',
-    icon: classicThemeIcon,
-    label: 'Classic',
-  },
   {
     name: 'dark',
     icon: darkThemeIcon,
@@ -24,16 +16,6 @@ const themes = [
     name: 'earth',
     icon: earthThemeIcon,
     label: 'Earth',
-  },
-  {
-    name: 'ocean',
-    icon: blueThemeIcon,
-    label: 'Ocean',
-  },
-  {
-    name: 'sand',
-    icon: orangeThemeIcon,
-    label: 'Sand',
   }
 ]
 
@@ -65,7 +47,7 @@ export class ThemeSwitcher extends LitElement {
 			.theme-switcher__container {
 				margin: 2rem 0;
 				display: grid;
-				grid-template-columns: repeat(5, 1fr);
+				grid-template-columns: repeat(2, 1fr);
 			}
 			.theme-select__container {
 				display: flex;
@@ -94,35 +76,22 @@ export class ThemeSwitcher extends LitElement {
     	// Set default theme to dark if the operating system specifies this preference
 			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 				this._setTheme('dark');
-			} else{ // Set to default/light theme if no specification, or light theme is specified
-				this._setTheme('default');
+			} else{ // Set to earth theme if no specification, or light theme is specified
+				this._setTheme('earth');
 			}
     		
     }
 	}
 
-  firstUpdated() {
-    this._getCurrentTheme();
-  }
-
 	private _setTheme(theme) {
 		this._doc.setAttribute('data-theme', theme);
 
     const _heroImage = document.querySelector('#home-hero-image') as HTMLImageElement;
-		if (theme === 'default') {
-			_heroImage.src = '/annatlai/assets/images/home/classic-hero.jpg';
-		}
 		if (theme === 'dark') {
 			_heroImage.src = '/annatlai/assets/images/home/dark-hero.jpg';
 		}
 		if (theme === 'earth') {
 			_heroImage.src = '/annatlai/assets/images/home/earth-hero.jpg';
-		}
-		if (theme === 'ocean') {
-			_heroImage.src = '/annatlai/assets/images/home/ocean-hero.jpg';
-		}
-		if (theme === 'sand') {
-			_heroImage.src = '/annatlai/assets/images/home/sand-hero.jpg';
 		}
 		localStorage.setItem('theme', theme);
 		this.theme = theme;

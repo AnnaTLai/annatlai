@@ -1,0 +1,263 @@
+---
+description: Secure coding rules based on OWASP Top 10 2025
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Security patterns (OWASP Top 10 2025)
+
+## Global rules (all work)
+
+- Never hardcode secrets, API keys, tokens, passwords, or private keys. Use environment variables, a secrets manager, or build-time injection that never commits values to the repo.
+- Always validate and sanitize inputs on the server (and mirror client checks only as UX). Reject invalid input; do not trust `fetch` bodies, query strings, headers, or cookies.
+- Enforce least privilege: default deny, grant only what is needed, scope roles/permissions narrowly, and re-check on every sensitive action.
+- Fail closed, never fail open: on authz, crypto, or parsing errors, deny access and return a safe error—do not assume “logged in” or “allowed.”
+- Flag placeholder security logic with `// SECURITY: TODO` (or equivalent) so it is never mistaken for production-ready controls.
+- When requirements are ambiguous, choose the more restrictive, secure option (stricter validation, shorter sessions, narrower CORS, deny by default).
+
+---
+
+## A01:2025 — Broken Access Control (includes SSRF)
+
+**Never generate**
+
+- Authorization that trusts client-supplied user IDs, roles, or “isAdmin” flags without server-side verification.
+- “Hidden” admin URLs or UI-only access checks without server enforcement.
+- Server-side requests to arbitrary URLs/hostnames from user input (open redirects, webhook proxies, image loaders) without strict allowlists.
+- IDOR patterns: fetching/updating resources by ID without proving the subject owns or may access that resource.
+
+**Always use instead**
+
+- Enforce ownership/role checks on every protected route and API using server-side session identity and server-stored permissions.
+- Use indirect references or scoped queries (e.g., “documents where `ownerId` = current user”) after authz.
+- For outbound HTTP: allowlist schemes, hosts, and ports; block private/link-local/metadata IPs; use a dedicated egress proxy when possible.
+
+**Example**
+
+```text
+// Vulnerable: trust ?userId from the client
+const doc = await db.doc.findOne({ id, ownerId: req.query.userId });
+
+// Secure: bind to authenticated identity and verify
+const doc = await db.doc.findOne({ id, ownerId: req.session.userId });
+if (!doc) return res.status(404).end();
+```
+
+---
+
+## A02:2025 — Security Misconfiguration
+
+**Never generate**
+
+- Default admin credentials, debug modes, or verbose stack traces in production.
+- Wildcard CORS (`*`) with credentials, or permissive `frame-ancestors` / missing security headers when a stricter policy fits.
+- Directory listing, unnecessary services, or “example” configs left enabled in deploy artifacts.
+
+**Always use instead**
+
+- Explicit, minimal CORS origins; secure defaults for cookies (`HttpOnly`, `Secure`, `SameSite`); appropriate CSP and related headers for the app.
+- Disable debug/detail in production; environment-specific configs; principle of least exposure for ports and admin interfaces.
+
+**Example**
+
+```text
+// Vulnerable: permissive CORS for all origins with credentials
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+// Secure: explicit origin(s), credentials only when needed
+Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Credentials: true
+```
+
+---
+
+## A03:2025 — Software Supply Chain Failures
+
+**Never generate**
+
+- Unpinned or `latest`-style dependencies in production lockfiles without review; installing packages from unverified URLs or pasted install scripts.
+- CI that runs untrusted code from forks with full secrets; auto-merge of dependency bumps without review for sensitive packages.
+
+**Always use instead**
+
+- Lockfiles (`package-lock.json`, etc.), integrity checks, and trusted registries; verify checksums where supported.
+- Minimal dependency surface; periodic audits; separate least-privilege tokens for CI; review changes to build and publish pipelines.
+
+**Example**
+
+```text
+// Vulnerable: ad-hoc install from arbitrary URL in CI
+curl https://unknown.cdn/tool.sh | bash
+
+// Secure: pinned version from lockfile + official registry
+npm ci
+```
+
+---
+
+## A04:2025 — Cryptographic Failures
+
+**Never generate**
+
+- Custom crypto; weak algorithms (MD5/SHA1 for passwords); hardcoded keys; plaintext secrets at rest or in logs.
+- Misuse of symmetric crypto for passwords (use password hashing: Argon2, scrypt, or bcrypt with appropriate cost).
+
+**Always use instead**
+
+- Industry-standard libraries and algorithms; TLS for data in transit; strong KDFs for passwords; keys from secure storage/rotation.
+- Encrypt sensitive data at rest when required; never log secrets or raw tokens.
+
+**Example**
+
+```text
+// Vulnerable: reversible “encryption” for passwords
+const stored = encrypt(password, HARDCODED_KEY);
+
+// Secure: one-way password hashing
+const stored = await argon2.hash(password);
+```
+
+---
+
+## A05:2025 — Injection (SQL, NoSQL, command, LDAP, XSS, etc.)
+
+**Never generate**
+
+- String concatenation or template literals to build queries, shell commands, or LDAP filters from user input.
+- `dangerouslySetInnerHTML` / raw HTML sinks without strict, allowlisted sanitization; `eval` on user-influenced strings.
+
+**Always use instead**
+
+- Parameterized queries / prepared statements; builder APIs that separate structure from data; OS command APIs with argument arrays, not shell strings.
+- Context-appropriate encoding for HTML/JS/CSS/URL; CSP to reduce XSS impact; sanitize only with maintained libraries when HTML is required.
+
+**Example**
+
+```text
+// Vulnerable: SQL concatenation
+db.query(`SELECT * FROM users WHERE name = '${name}'`);
+
+// Secure: parameterized
+db.query('SELECT * FROM users WHERE name = ?', [name]);
+```
+
+---
+
+## A06:2025 — Insecure Design
+
+**Never generate**
+
+- “Security by obscurity” as the only control; missing threat modeling for auth, payments, and data flows; rate limits omitted on auth and sensitive APIs by design.
+
+**Always use instead**
+
+- Design controls up front: threat assumptions, abuse cases, quotas, fraud limits, and safe defaults documented in code or ADRs where appropriate.
+- Align architecture with trust boundaries (browser vs server vs third parties).
+
+**Example**
+
+```text
+// Vulnerable: unlimited login attempts by design
+POST /login — no throttle
+
+// Secure: rate limit + lockout/backoff at design time
+POST /login — per-IP and per-account throttling
+```
+
+---
+
+## A07:2025 — Identification and Authentication Failures
+
+**Never generate**
+
+- Weak password rules only; session IDs in URLs; long-lived sessions without rotation; “remember me” as a permanent plaintext token.
+- Missing MFA where high-value; custom session crypto; comparing secrets with `==` in ways that leak timing (use `timingSafeEqual` for secrets).
+
+**Always use instead**
+
+- Established session frameworks; secure cookie flags; rotation on privilege change; MFA for sensitive accounts when feasible.
+- Proper password reset flows (single-use, expiring tokens); lockout/backoff on failed attempts.
+
+**Example**
+
+```text
+// Vulnerable: token in query string, no expiry
+https://app/reset?token=abc123
+
+// Secure: POST body, single-use token, short TTL, hashed server-side
+await consumePasswordResetToken(hashedToken);
+```
+
+---
+
+## A08:2025 — Software and Data Integrity Failures
+
+**Never generate**
+
+- Unsigned auto-updates; `curl | bash` without verification; deserialization of untrusted pickled/YAML/object graphs with code execution.
+- Trusting client-submitted file metadata or paths for server writes without validation.
+
+**Always use instead**
+
+- Signatures/checksums for artifacts; verify publisher for packages; safe deserialization (JSON schema + plain types); validate file types and store outside web root or with strict content types.
+
+**Example**
+
+```text
+// Vulnerable: pickle from user upload
+pickle.loads(user_bytes)
+
+// Secure: JSON + schema validation
+JSON.parse(text); assertSchema(obj, UserInputSchema);
+```
+
+---
+
+## A09:2025 — Security Logging and Alerting Failures
+
+**Never generate**
+
+- Silent failures on authz; no logging of security-relevant failures; logging passwords, tokens, or full PII.
+- Generic “Error” in production with no correlation ID for incident response.
+
+**Always use instead**
+
+- Log auth failures, permission denials, and suspicious patterns with stable correlation IDs; structured logs; alerts on spikes and critical paths.
+- Redact secrets and minimize PII in logs; retain per policy.
+
+**Example**
+
+```text
+// Vulnerable: no log on denied access
+if (!allowed) return res.status(403).end();
+
+// Secure: audit log without leaking secrets
+if (!allowed) { log.warn({ event: 'access_denied', userId, resourceId, requestId }); return res.status(403).end(); }
+```
+
+---
+
+## A10:2025 — Mishandling of Exceptional Conditions
+
+**Never generate**
+
+- Empty `catch` blocks; swallowing errors that skip authz or payment steps; defaulting to “success” or “admin” on error.
+- Exposing stack traces or internal details to end users in production.
+
+**Always use instead**
+
+- Explicit handling: on failure, fail closed, roll back partial state where needed, return safe generic messages to clients, log details server-side.
+- Timeouts and bounds on all external calls; validate assumptions after `try/catch`.
+
+**Example**
+
+```text
+// Vulnerable: fail open
+try { assertPaymentOk(); } catch (e) { /* ignore */ }
+shipOrder();
+
+// Secure: fail closed
+try { assertPaymentOk(); } catch (e) { log.error(e); return res.status(502).json({ error: 'unavailable' }); }
+shipOrder();
+```
