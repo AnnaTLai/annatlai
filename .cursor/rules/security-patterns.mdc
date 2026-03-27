@@ -6,6 +6,8 @@ alwaysApply: true
 
 # Security patterns (OWASP Top 10 2025)
 
+Based on https://cyberjasbytes.notion.site/Secure-Coding-with-Cursor-31297089b9c7803fae13efbce088a0c2. 
+
 ## Global rules (all work)
 
 - Never hardcode secrets, API keys, tokens, passwords, or private keys. Use environment variables, a secrets manager, or build-time injection that never commits values to the repo.
