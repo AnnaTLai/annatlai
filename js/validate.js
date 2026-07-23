@@ -91,7 +91,7 @@ jQuery(document).ready(function($) {
 					$("#errormessage").removeClass("show").html('');
 				}else{
 					$("#sendmessage").removeClass("show");
-					$("#errormessage").addClass("show").html(msg);
+					$("#errormessage").addClass("show").text(msg);
 				}
 			},
 			error: function(request, status, error){
