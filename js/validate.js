@@ -77,30 +77,31 @@ jQuery(document).ready(function($) {
 			  i.next('.validation').html( ( ierror ? (i.attr('data-msg') != undefined ? i.attr('data-msg') : 'wrong Input') : '' ) ).show('blind');
 		    }
 		});
-		if( ferror ) return false; 
-			else var str = $(this).serialize();
-		
-			   $.ajax({
-			   type: "POST",
-			   url: "contact/contact.php",
-			   data: str,
-			   success: function(msg){
-			$("#sendmessage").addClass("show");
-			$("#errormessage").ajaxComplete(function(event, request, settings){
-		
-			if(msg == 'OK')
-			{
-				$("#sendmessage").addClass("show");
-				
-			}
-			else
-			{
+		if( ferror ) return false;
+
+		var str = $(this).serialize();
+
+		$.ajax({
+			type: "POST",
+			url: "contact/contact.php",
+			data: str,
+			success: function(msg){
+				if( msg == 'OK' ){
+					$("#sendmessage").addClass("show");
+					$("#errormessage").removeClass("show").html('');
+				}else{
+					$("#sendmessage").removeClass("show");
+					$("#errormessage").addClass("show").text(msg);
+				}
+			},
+			error: function(request, status, error){
 				$("#sendmessage").removeClass("show");
-				result = msg;
+				$("#errormessage")
+					.addClass("show")
+					.html('Sorry, your message could not be sent. Please try again later.');
 			}
-		
-			$(this).html(result);});}});
-				return false;
+		});
+		return false;
 	});
 
 });
