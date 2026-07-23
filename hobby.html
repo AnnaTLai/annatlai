@@ -4,6 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Hobby | My Personal Website</title>
 
@@ -21,23 +24,7 @@
   </main>
 
   <script src="js/bootstrap.bundle.min.js"></script>
-  <script>
-
-    const container = $("#hobbyPageContainer");
-    const backButton = $(`
-      <div class="position-fixed bottom-0 end-0 m-3">
-        <button type="button" class="btn btn-outline-success">
-          <i class="bi bi-house-door-fill"></i>&nbsp;&nbsp;Back to Home
-        </button>
-      </div>
-    `);
-
-    container.append(backButton);
-
-    backButton.click(() => {
-      window.location.href = '/';
-    });
-  </script>
+  <script src="js/hobby.js"></script>
 </body>
 
 </html>
