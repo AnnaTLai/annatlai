@@ -1,0 +1,6 @@
+/* Home page layout offset (previously an inline <style> block in index.html). */
+body[data-page="home"] {
+  background-color: #f4f4f4;
+  padding-right: 15rem;
+  margin-right: -15rem;
+}
